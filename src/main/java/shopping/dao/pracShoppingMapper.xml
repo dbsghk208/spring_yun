@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shoppingSQL">
+	
+	<!-- pracShopping.jsp 목록 -->
+	<select id="getShoppingList" resultType="shopping">
+		(select productcode,
+				productName,
+				category,
+				productUnit,
+				productImageName
+			from milkyproductinfo
+			join milkyproductimage using(productcode)
+			where (to_number(substr(productcode,2,3)) between 1 and 4)	
+			and category= '원두')
+			
+			union
+			
+			(select product,
+					productName,
+					category,
+					productUnit,
+					productImageName
+			from milkyproductinfo		
+			join milkyproductimage using(productcode)
+			where (to_number(substr(productcode,2,3)) between 1 and 4)
+				and category='티')
+		
+	</select>
+	
+	<!-- 이미지 주소의 경로를 가져오는게 select productImageName 을 해주는것  -->	
+	<!-- to_number : 문자를 숫자로 변환 
+		substr(2,3) : 2번째부터 시작해서 3글자를 가져와주세요.
+	-->
+	
+	<select id="getShoppingList2" resultType="shopping">
+		(select productcode,
+				productName,
+				category,
+				productUnit,
+				productImageName
+		from milkyproductinfo
+		join milkyproductimage using(productcode)
+		where (to_number(substr(productcode, 2,3)) between 1 and 4)
+		and category ='원두')
+		
+		union
+		
+		(select product,
+				productName,
+				category,
+				productUnit,
+				productImageName
+		from milkyproductinfo
+		join milkyproductimage using(productcode)		
+		where (to_number(substr(product,2,3)) between 1 and 4)
+		and category ='머그' and substr(productimagename, 6,1) 
+		)
+		
+		
+		)
+	
+	</select>
+	
+	
+
+</mapper>
